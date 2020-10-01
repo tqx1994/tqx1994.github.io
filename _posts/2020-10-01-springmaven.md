@@ -1,3 +1,4 @@
+# Notes on Spring framework derived from Spring Framewords in Easy Steps by Bharath Thippireddy on Udemy and some concepts from Martin Fowler (WIP) 
 # Maven
 
 ## What is Maven?
