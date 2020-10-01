@@ -1,10 +1,9 @@
 ---
-title: "Spring Maven Notes"
+title: "Spring Framework Notes"
 categories:
-
-- Programming Language
-  tags:
-- java
+  - Programming Language
+tags:
+  - java spring
 ---
 
 Notes on Spring framework derived from Spring Framewords in Easy Steps by Bharath Thippireddy on Udemy and some concepts from Martin Fowler (WIP)
