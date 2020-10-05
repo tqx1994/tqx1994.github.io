@@ -517,3 +517,114 @@ http://www.springframework.org/schema/aop
 <aop:aspectj-autoproxy />
 </beans>
 ```
+We can do the following in the class level code to make use of AOP
+
+```java
+@Aspect
+public class LoggingAspect {
+
+	@Before("execution(* com.spring.springaop.ProductServiceImpl.multiply(..))")
+	public void logBefore(JoinPoint joinPoint) {
+		System.out.println("Before calling the method");
+	}
+
+	@After("execution(* com.spring.springaop.ProductServiceImpl.multiply(..))")
+	public void logAfter(JoinPoint joinPoint) {
+		System.out.println("After the method invocation");
+	}
+}
+```
+
+# Spring Expression Language
+
+Spring expression language supports parsing and executing expressions with the help of the @Value annotation. The pound(#) character is used to evaluate an expression in Spring Expression Language
+
+```java
+// Example 1
+@Value("#{66+44}")
+// Example 2
+@Value("#{5>6?22:23}")
+```
+
+The container will add these 2 integers that is within the @Value annotation and inject the value.  
+In the second example, we can also specify a teneray operator within the @value annotation
+
+## Using static methods inside expression
+
+We can use static methods within the expression. For instance, we have:
+
+```java
+@Value("#{-99}")
+```
+
+This expression will evaluate the negative numbers. However, if we want to always take in a positive number, we could invoke a static method within the expression: T(class).method(param)
+
+```java
+@Value("#{T(java.lang.Math).abs(-99)}")
+```
+
+## Create objects inside expression
+
+To create an object within the expression we can do as follows:
+
+```java
+@Value("#{new Integer(88)}")
+```
+
+_If we access a static variable_
+
+```java
+@Value("#{T(java.lang.Integer).MIN_VALUE}")
+```
+
+Here we are assigning the minimum value an integer can hold and injecting it with the value annotation
+
+## Creating string type
+
+The syntax to creating string type within expressions are as follows:
+
+```java
+@Value("#{'John Doe'}")
+
+// To invoke methods on the string
+@Value("#{'John Doe'.toUpperCase()}")
+
+// Can also create String with the new operator
+@Value("#{new java.lang.String('John Doe')}")
+```
+
+## Creating boolean type
+
+```java
+@Value("#{2+4>5}") // returns true
+```
+
+# Spring JDBC
+
+When we use JDBC, we have to write a lot of codes such as creating Connection, creating Statement/PreparedStatement.
+
+Spring simplifies JDBC by providing us with the JDCBTemplate class.
+
+JDBCTemplate = JDBC Technology + Template Design Pattern
+
+To use JDBCTemplate from Spring, we need to provide it with javax.sql.DataSource() interface. Spring provides an implementation class of this interface, DriverManagerDataSource.
+
+We have to create a bean of DriverManagerDataSource and inject it into the JDBCTemplate.
+
+The DriverManagerDataSource takes in 4 parameters namely, driverClassName, url, userName, password.
+
+```xml
+<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="dataSource" p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3306/mydb?useSSL=false" p:username="root"
+p:password="root" />
+
+<bean class="org.springframework.jdbc.core.JdbcTemplate"
+		name="jdbcTemplate" p:dataSource-ref="dataSource" />
+```
+
+```java
+ApplicationContext context = new ClassPathXmlApplicationContext("com/training/spring/springjdbc/config.xml");
+		JdbcTemplate jdbcTemplate = (JdbcTemplate) context.getBean("jdbcTemplate");
+		String sql = "insert into employee values(?,?,?)";
+		int result = jdbcTemplate.update(sql, new Integer(1),"John","Doe");
+		System.out.println("Number of records inserted are: "+result);
+```
