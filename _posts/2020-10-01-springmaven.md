@@ -510,9 +510,9 @@ public int com.john.MyClass.multiply(int,int)
 To enable AOP Aspect annotations we have to configure our xml files as follows:
 
 ```xml
-<beans xmlns:aop="http://www.springframework.org/schema/aop"
-http://www.springframework.org/schema/aop
-	http://www.springframework.org/schema/aop/spring-aop.xsd>
+<beans xmlns:aop="http://www.springframework.org/schema/aop" 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop.xsd>
 
 <aop:aspectj-autoproxy />
 </beans>
@@ -618,13 +618,13 @@ The DriverManagerDataSource takes in 4 parameters namely, driverClassName, url, 
 p:password="root" />
 
 <bean class="org.springframework.jdbc.core.JdbcTemplate"
-		name="jdbcTemplate" p:dataSource-ref="dataSource" />
+name="jdbcTemplate" p:dataSource-ref="dataSource" />
 ```
 
 ```java
 ApplicationContext context = new ClassPathXmlApplicationContext("com/training/spring/springjdbc/config.xml");
-		JdbcTemplate jdbcTemplate = (JdbcTemplate) context.getBean("jdbcTemplate");
-		String sql = "insert into employee values(?,?,?)";
-		int result = jdbcTemplate.update(sql, new Integer(1),"John","Doe");
-		System.out.println("Number of records inserted are: "+result);
+JdbcTemplate jdbcTemplate = (JdbcTemplate) context.getBean("jdbcTemplate");
+String sql = "insert into employee values(?,?,?)";
+int result = jdbcTemplate.update(sql, new Integer(1),"John","Doe");
+System.out.println("Number of records inserted are: "+result);
 ```
